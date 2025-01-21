@@ -19,7 +19,7 @@ model = modelDict['model']
 
 labelDict = {chr(i): chr(i) for i in range(65, 91)}
 #i used to write down this entire hash from A to Z and one day i realized i could use this method instead of doin that boring ass stuff i did backthen
-#so basically label data is a dictionary which works a place holder. this is basically a hashmap
+#so basically label data is a dictionary which works a place holder. this is something like a hashmap a hashmap
 
 @app.route("/predict", methods=['POST'])
 def prediction(): #the main function which predicts the model
@@ -27,8 +27,8 @@ def prediction(): #the main function which predicts the model
     data = request.json['image']
 
     #decode the image
-    #for people who dont know much about cs Base64 is basically an encoding method used to convert binary data which is 
-    #for us images into text format using ASCII (american standard code for information interchange) and then we decode that run that
+    #for people who don't know much about cs Base64 is an encoding method used to convert binary data which is 
+    #for us images are in text format using ASCII (American standard code for information interchange) and then we decode that run that
     imageData = base64.b64decode(data)
     img = Image.open(io.BytesIO(imageData))
     img = np.array(img) # this is turned into an np array so that the dimensions of the image could me obtained without doin some complicated stuff

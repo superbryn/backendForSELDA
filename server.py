@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import numpy as np
 import mediapipe as mp
-import pickle as aachar
+import pickle as achaar
 import base64
 import io
 from PIL import Image
@@ -14,7 +14,7 @@ CORS(app)
 mp_hands = mp.solutions.hands 
 hands = mp_hands.Hands(static_image_mode=True, max_num_hands=1, min_detection_confidence=0.5)
 
-modelDict = aachar.load(open('./newmodel.p', 'rb'))
+modelDict = achaar.load(open('./newmodel.p', 'rb'))
 model = modelDict['model']
 
 labelDict = {chr(i): chr(i) for i in range(65, 91)}

@@ -18,24 +18,16 @@ modelDict = achaar.load(open('./newmodel.p', 'rb'))
 model = modelDict['model']
 
 labelDict = {chr(i): chr(i) for i in range(65, 91)}
-#i used to write down this entire hash from A to Z and one day i realized i could use this method instead of doin that boring ass stuff i did backthen
-#so basically label data is a dictionary which works a place holder. this is something like a hashmap a hashmap
 
 @app.route("/predict", methods=['POST'])
-def prediction(): #the main function which predicts the model
+def prediction():
     #get the base64 image from the request
     data = request.json['image']
 
-    #decode the image
-    #for people who don't know much about cs Base64 is an encoding method used to convert binary data which is 
-    #for us images are in text format using ASCII (American standard code for information interchange) and then we decode that run that
-    imageData = base64.b64decode(data)
+    
+    imageData = base64.b64decode(data) #decode the base64 into binary (image)
     img = Image.open(io.BytesIO(imageData))
-    img = np.array(img) # this is turned into an np array so that the dimensions of the image could me obtained without doin some complicated stuff
-                        # the original model used asarray
-
-    #imgRGB = cv.cvtColor(img, cv.COLOR_BGR2RGB) this line was a pain in the ass for me as the normal model used this i thought this was useful
-    #i leave this line as a souvenier for all my friend who reviews this code and reaslizes what an idiot i am LoL XD
+    img = np.array(img)
     result = hands.process(img)
     
     dataAUX = []
@@ -55,9 +47,9 @@ def prediction(): #the main function which predicts the model
         prediction = model.predict([dataAUX])  
         prediction_character = labelDict.get(prediction[0], "Unknown")
 
-        return jsonify({'prediction': prediction_character})
+        return jsonify({'prediction': prediction_character}) # prediction
 
-    return jsonify({'prediction': 'no hands'})
+    return jsonify({'prediction': 'No Hands Found'}) #if no hands are found
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=2000, debug=True)
